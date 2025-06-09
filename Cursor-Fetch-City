@@ -1,0 +1,27 @@
+DECLARE
+  -- Declare variables to hold city and employee count
+  v_city   VARCHAR2(100);
+  v_count  NUMBER;
+
+  -- Cursor to get city and count of employees grouped by city
+  CURSOR city_cursor IS
+    SELECT city, COUNT(id) AS emp_count
+    FROM employee
+    GROUP BY city;
+BEGIN
+  -- Open cursor
+  OPEN city_cursor;
+
+  -- Loop through each row
+  LOOP
+    FETCH city_cursor INTO v_city, v_count;
+    EXIT WHEN city_cursor%NOTFOUND;
+
+    -- Print city and count
+    DBMS_OUTPUT.PUT_LINE('City: ' || v_city || ' - Employee Count: ' || v_count);
+  END LOOP;
+
+  -- Close cursor
+  CLOSE city_cursor;
+END;
+/
