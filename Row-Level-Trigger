@@ -1,0 +1,18 @@
+CREATE OR REPLACE TRIGGER trg_customers_salary_diff
+AFTER INSERT OR UPDATE OR DELETE ON customers
+FOR EACH ROW
+DECLARE
+  salary_diff NUMBER;
+BEGIN
+  IF INSERTING THEN
+    DBMS_OUTPUT.PUT_LINE('INSERT: New Salary = ' || :NEW.salary);
+  
+  ELSIF DELETING THEN
+    DBMS_OUTPUT.PUT_LINE('DELETE: Old Salary = ' || :OLD.salary);
+  
+  ELSIF UPDATING THEN
+    salary_diff := :NEW.salary - :OLD.salary;
+    DBMS_OUTPUT.PUT_LINE('UPDATE: Salary difference = ' || salary_diff);
+  END IF;
+END;
+/
